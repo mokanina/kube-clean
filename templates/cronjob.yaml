@@ -1,0 +1,62 @@
+{{- if gt (len .Values.targetNamespaces) 0 }}
+{{- range $i, $namespace := .Values.targetNamespaces }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "kube-clean.fullname" $ }}-{{ $namespace }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "kube-clean.labels" $ | nindent 4 }}
+spec:
+  schedule: '{{ $.Values.cronJob.schedule }}'
+  successfulJobsHistoryLimit: {{ $.Values.cronJob.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ $.Values.cronJob.failedJobsHistoryLimit }}
+  jobTemplate:
+    metadata:
+      name: {{ include "kube-clean.fullname" $ }}-{{ $namespace }}
+      labels:
+        {{- include "kube-clean.labels" $ | nindent 8 }}
+    spec:
+      template:
+        metadata:
+          {{- with $.Values.pods.annotations }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          labels:
+            {{- include "kube-clean.selectorLabels" $ | nindent 12 }}
+        spec:
+          serviceAccount: {{ $.Chart.Name }}-pod-handler
+          restartPolicy: OnFailure
+          containers:
+          - name: {{ $.Chart.Name }}
+            image: "{{ $.Values.pods.image.repository }}:{{ $.Values.pods.image.tag | default $.Chart.AppVersion }}"
+            imagePullPolicy: {{ $.Values.pods.image.pullPolicy }}
+            command:
+              - bash
+            # TODO: add selector
+            args:
+              - -c
+              - >-
+                date &&
+                echo -e "Deleting failed pods in namespace: {{ $namespace }}" &&
+                kubectl delete pods --field-selector=status.phase==Failed --namespace={{ $namespace }} --ignore-not-found=true
+            resources:
+              {{- toYaml $.Values.pods.resources | nindent 14 }}
+            securityContext:
+              {{- toYaml $.Values.pods.securityContext | nindent 14 }}
+          {{- with $.Values.pods.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $.Values.pods.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $.Values.pods.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+---
+{{- end }}
+{{- end }}

@@ -1,0 +1,46 @@
+# Default values for kube-clean.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+# set list of namespaces to operate on
+#TODO: add template for "all" namespaces
+targetNamespaces:
+  - default
+
+# configure the cron job
+cronJob:
+  schedule: '@daily'
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+
+
+pods:
+  image:
+    repository: bitnami/kubectl
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+    pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      memory: 100Mi
+    requests:
+      cpu: 5m
+      memory: 100Mi
+
+  securityContext:
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+
+  annotations: {}
+
+  nodeSelector: {}
+
+  tolerations:
+    - key: "example-key"
+      operator: "Exists"
+      effect: "NoSchedule"
+
+  affinity: {}
