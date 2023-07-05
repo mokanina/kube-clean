@@ -38,9 +38,6 @@ pods:
 
   nodeSelector: {}
 
-  tolerations:
-    - key: "example-key"
-      operator: "Exists"
-      effect: "NoSchedule"
+  tolerations: []
 
   affinity: {}
