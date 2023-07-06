@@ -22,6 +22,8 @@ pods:
     tag: ""
     pullPolicy: IfNotPresent
 
+  restartPolicy: OnFailure
+
   resources:
     limits:
       memory: 100Mi

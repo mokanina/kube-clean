@@ -27,7 +27,7 @@ spec:
             {{- include "kube-clean.selectorLabels" $ | nindent 12 }}
         spec:
           serviceAccount: {{ $.Chart.Name }}-pod-handler
-          restartPolicy: OnFailure
+          restartPolicy: {{ $.Values.pods.restartPolicy }}
           containers:
           - name: {{ $.Chart.Name }}
             image: "{{ $.Values.pods.image.repository }}:{{ $.Values.pods.image.tag | default $.Chart.AppVersion }}"
