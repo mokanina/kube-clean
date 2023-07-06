@@ -24,3 +24,25 @@ or
 ```bash
 kubectl -n kube-clean get all
 ```
+
+## Values
+The `values.yaml` files have the following meaning:
+
+| Parameter                            | Description                                                 | Type      | Default            |
+|--------------------------------------|-------------------------------------------------------------|-----------|--------------------|
+| `targetNamespaces`                   | namespaces that should be cleaned                           | `array`   | `["default"]`      |
+|--------------------------------------|-------------------------------------------------------------|-----------|--------------------|
+| `cronJob.schedule`                   | `CronJobSpec` for set the schedule of the CronJob           | `string`  | `@daily`           |
+| `cronJob.successfulJobsHistoryLimit` | `CronJobSpec` for number of successful jobs to keep         | `integer` | `1`                |
+| `cronJob.failedJobsHistoryLimit`     | `CronJobSpec` for number of failed jobs to keep             | `integer` | `1`                |
+|--------------------------------------|-------------------------------------------------------------|-----------|--------------------|
+| `pods.image.repository`              | `PodSpec` for the image repository                          | `string`  | `bitnami/kubectl`  |
+| `pods.image.tag`                     | `PodSpec` for overwriting the image tag                     | `string`  | Chart `appVersion` |
+| `pods.image.pullPolicy`              | `PodSpec` for the image pull policy                         | `string`  | `IfNotPresent`     |
+| `pods.restartPolicy`                 | `PodSpec` for pod restarting policy on failure              | `string`  | `OnFailure`        |
+| `pods.resources`                     | `PodSpec` for resource request and limit for CPU and memory | `map`     | See `values.yaml`  |
+| `pods.seurityContext`                | `PodSpec` for defining security context of the pod          | `map`     | See `values.yaml`  |
+| `pods.annotations`                   | `PodSpec` for defining annotations of the pod               | `map`     | `{}`               |
+| `pods.nodeSelector`                  | `PodSpec` for defining nodeSelector to deploy the pod on    | `map`     | `{}`               |
+| `pods.tolerations`                   | `PodSpec` for defining tolerations to deploy the pod on     | `array`   | `[]`               |
+| `pods.affinity`                      | `PodSpec` for defining affinity to deploy the pod on        | `map`     | `{}`               |
