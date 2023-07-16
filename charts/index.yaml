@@ -3,7 +3,7 @@ entries:
   kube-clean:
   - apiVersion: v2
     appVersion: 1.27-debian-11
-    created: "2023-07-16T09:55:46.936737685+02:00"
+    created: "2023-07-16T10:34:37.546779624+02:00"
     description: A Helm chart deploying cron job taking care of Pods in "Failed" state.
     digest: 04de3b9ad1a0d1866d8f2308902779cbd141e5d2e3b0165013babfafc815a291
     name: kube-clean
@@ -11,4 +11,4 @@ entries:
     urls:
     - kube-clean-0.1.0.tgz
     version: 0.1.0
-generated: "2023-07-16T09:55:46.93566429+02:00"
+generated: "2023-07-16T10:34:37.546241936+02:00"
