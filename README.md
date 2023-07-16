@@ -3,6 +3,8 @@ Helm chart deploying cronjob that cleans failed pods in specified namespaces. It
 inspired from the following [discussion/answer](https://stackoverflow.com/a/72872547/15045604)
 in stackoverflow.
 
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/kube-clean)](https://artifacthub.io/packages/search?repo=kube-clean)
+
 
 ## Prerequisites
 - Before you can install the `kube-clean` chart make sure that you have:
